@@ -1,15 +1,31 @@
 # airflow
 
-### Create and activate a virtual environment:
+### Create and activate a Python virtual environment:
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
 ```
-
 ### Install the dependencies 
 ```bash
 pip install --upgrade setuptools wheel pandas graphviz apache-airflow-providers-postgres
 ```
+### generate fernet token 
+```bash
+echo "FERNET_KEY=<paste_key_here>" >> .env
+```
+# Run airflow using docker 
+```bash
+mkdir airflow
+cd airflow 
+curl -LfO 'https://airflow.apache.org/docs/apache-airflow/stable/docker-compose.yaml'
+mkdir -p ./dags ./logs ./plugins ./config
+echo -e "AIRFLOW_UID=$(id -u)" > .env
+docker compose up airflow-init
+docker compose up -d
+```
+
+
+# Install airflow standalone server
 
 ### Install Airflow 
 ```bash
