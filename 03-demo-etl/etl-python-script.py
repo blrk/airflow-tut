@@ -16,7 +16,7 @@ def transform_data(df):
     return df_transformed
 
 def write_data_to_file(df):
-    output_dir = '/tmp'
+    output_dir = '/opt/airflow/outputs'
     os.makedirs(output_dir, exist_ok=True)
     timestamp = datetime.now().strftime('%Y%m%d%H%M%S')
     file_name = f'etl_output_{timestamp}.csv'

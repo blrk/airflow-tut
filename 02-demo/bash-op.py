@@ -30,14 +30,14 @@ schedule=timedelta(days=1),
 
 extract = BashOperator(
 task_id='extract',
-bash_command='cut -d":" -f1,3,6 /etc/passwd > /tmp/extracted-data.txt',
+bash_command='cut -d":" -f1,3,6 /etc/passwd > /opt/airflow/outputs/extracted-data.txt',
 dag=dag,
 )
 
 # Second task
 transform_and_load = BashOperator(
 task_id='transform',
-bash_command='tr ":" "," < /tmp/extracted-data.txt > /tmp/transformed-data.csv',
+bash_command='tr ":" "," < /opt/airflow/outputs/extracted-data.txt > /opt/airflow/outputs/transformed-data.csv',
 dag=dag,
 )
 

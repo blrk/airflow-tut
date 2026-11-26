@@ -4,7 +4,7 @@ from airflow import DAG
 from airflow.operators.python import PythonOperator
 
 # Load etl_process from your external script path (handles hyphens in filename)
-script_path = '/home/ec2-user/airflow/airflow-tut/03-demo-etl/etl-python-script.py'
+script_path = '/opt/airflow/outputs/etl-python-script.py'
 spec = importlib.util.spec_from_file_location('etl_script', script_path)
 etl_script = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(etl_script)
