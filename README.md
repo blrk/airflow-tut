@@ -11,7 +11,11 @@ pip install --upgrade setuptools wheel pandas graphviz apache-airflow-providers-
 ```
 ### generate fernet token 
 ```bash
-echo "FERNET_KEY=<paste_key_here>" >> .env
+FERNET_KEY=$(python3 -c "from cryptography.fernet import Fernet; print(Fernet.generate_key().decode())" 2>/dev/null || openssl rand -base64 32)
+cat <<EOF > /home/ec2-user/.env
+FERNET_KEY=${FERNET_KEY}
+AIRFLOW_UID=$(id -u)
+EOF
 ```
 # Run airflow using docker 
 ```bash
@@ -23,7 +27,23 @@ echo -e "AIRFLOW_UID=$(id -u)" > .env
 docker compose up airflow-init
 docker compose up -d
 ```
+### How to compile a dag or assest
+```bash
+docker exec airflow-airflow-scheduler-1 python -m py_compile /opt/airflow/dags/simeple_asset.py
+```
 
+### How list the assest 
+```bash
+docker exec airflow-airflow-scheduler-1 airflow assets list
+```
+### How to materalise an asset
+```bash
+docker exec airflow-airflow-scheduler-1 airflow assets materialize --name user
+```
+### How to view the errors 
+```bash
+docker exec airflow-airflow-scheduler-1 airflow dags list-import-errors
+```
 
 # Install airflow standalone server
 
